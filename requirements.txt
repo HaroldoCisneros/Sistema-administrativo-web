@@ -1,0 +1,6 @@
+Django>=5.2,<5.3
+djangorestframework==3.18.1
+mssql-django==1.8.0
+pyodbc>=5.1
+waitress==3.0.2
+whitenoise>=6.9

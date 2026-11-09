@@ -1,0 +1,97 @@
+{% extends "nucleo/plantilla_acceso.html" %}
+{% comment %}
+  NOTA: {% extends %} debe ser siempre la PRIMERA línea (regla de Django).
+
+  empresas/templates/empresas/seleccionar.html
+  ============================================
+  Paso 2 de 2: elegir la empresa (empresas/views.py, seleccionar).
+  Usa la misma plantilla de acceso que el login.
+
+  Dos formas de elegir:
+    1. Escribir el código y presionar "Continue".
+    2. Tocar la empresa en la lista de abajo (cada una es un botón que
+       envía su código).
+
+  Variables que manda la vista:
+    form      -> el formulario con el campo "codigo" (empresas/forms.py)
+    empresas  -> empresas que el usuario puede elegir
+    ultima    -> código de la última empresa usada en este navegador
+    next      -> a dónde ir después de elegir
+{% endcomment %}
+{% load iconos formato i18n %}
+
+{% block titulo %}{% translate "Choose company" %}{% endblock %}
+
+{# Paso 1 ya hecho, paso 2 actual #}
+{% block clase_paso1 %}hecho{% endblock %}
+{% block clase_paso2 %}actual{% endblock %}
+
+{% block formulario %}
+{# Saludo con las iniciales del usuario #}
+<div class="saludo-usuario">
+  <span class="saludo-usuario__avatar">{{ user.first_name|default:user.username|iniciales }}</span>
+  <div>
+    {# blocktranslate con "with": el nombre va dentro del texto traducible #}
+    <h2>{% blocktranslate with nombre=user.first_name|default:user.username|title %}Hi, {{ nombre }}{% endblocktranslate %}</h2>
+    <p>{% translate "Which company will you work with?" %}</p>
+  </div>
+</div>
+
+{# ===== Forma 1: escribir el código ===== #}
+<form method="post" novalidate>
+  {% csrf_token %}
+  {# Error: código inexistente, inactivo o sin acceso #}
+  {% if form.codigo.errors %}
+    <div class="aviso aviso--error" role="alert">{% icono "empresa" %}<span>{{ form.codigo.errors.0 }}</span></div>
+  {% endif %}
+
+  <div class="campo">
+    <label class="campo__etiqueta" for="{{ form.codigo.id_for_label }}">{{ form.codigo.label }}</label>
+    <div class="campo__caja">
+      {% icono "empresa" %}
+      {{ form.codigo }}
+    </div>
+  </div>
+  <input type="hidden" name="next" value="{{ next }}">
+  <button type="submit" class="boton boton--primario boton--ancho boton--grande">
+    {% translate "Continue" %} {% icono "derecha" %}
+  </button>
+</form>
+
+{# ===== Forma 2: tocar la empresa en la lista ===== #}
+{% if empresas %}
+  <p class="empresas__titulo">{% translate "Or pick one" %}</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <ul class="empresas">
+      {% for e in empresas %}
+        <li>
+          {# name="codigo" value="...": al tocarlo envía el código de esa empresa #}
+          <button type="submit" name="codigo" value="{{ e.codigo }}"
+                  class="empresa-opcion {% if e.codigo == ultima %}empresa-opcion--ultima{% endif %}">
+            <span class="empresa-opcion__codigo">{{ e.codigo }}</span>
+            <span class="empresa-opcion__textos">
+              <strong>{{ e.nombre }}</strong>
+              {# Debajo del nombre: el RIF y, si es la última usada, se indica #}
+              <small>{% if e.rif %}{{ e.rif }}{% else %}{{ e.base_profit }}{% endif %}{% if e.codigo == ultima %} · {% translate "last used" %}{% endif %}</small>
+            </span>
+            {% icono "derecha" %}
+          </button>
+        </li>
+      {% endfor %}
+    </ul>
+  </form>
+{% else %}
+  {# No hay empresas dadas de alta todavía #}
+  <div class="aviso aviso--warning empresas__sin">
+    <span>{% blocktranslate %}No companies are set up yet. Ask the administrator to add one (<code>python manage.py crear_empresa</code>).{% endblocktranslate %}</span>
+  </div>
+{% endif %}
+
+{# Salir: por si entró con el usuario equivocado. Es POST, como exige Django. #}
+<form class="acceso__otro" method="post" action="{% url 'cuentas:salir' %}">
+  {% csrf_token %}
+  <button type="submit">{% blocktranslate with usuario=user.username %}Not {{ usuario }}? Sign out{% endblocktranslate %}</button>
+</form>
+{% endblock %}

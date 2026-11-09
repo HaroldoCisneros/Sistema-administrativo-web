@@ -1,0 +1,10 @@
+# Clave secreta de Django (se genera sola al primer arranque; no compartir)
+clave_secreta.txt
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+# Registros y bases locales
+*.log
+*.sqlite3

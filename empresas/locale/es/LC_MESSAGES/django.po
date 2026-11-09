@@ -1,0 +1,87 @@
+# empresas/locale/es/LC_MESSAGES/django.po
+# Traducciones al ESPAÑOL del módulo empresas (elegir empresa).
+#
+# Cómo se usa:
+#   msgid  = el texto en inglés, EXACTAMENTE como está en el código o la plantilla.
+#   msgstr = su traducción. Si se deja vacío (""), se muestra en inglés.
+#   %(nombre)s y {nombre} son datos que se ponen después (no se traducen, solo se mueven).
+# Después de editar este archivo:
+#   python manage.py compilar_idiomas      (crea el django.mo que lee Django)
+#   y reiniciar el sistema.
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+
+msgid "Companies"
+msgstr "Empresas"
+
+msgid "Company code"
+msgstr "Código de la empresa"
+
+msgid "e.g. CF01"
+msgstr "ej. CF01"
+
+msgid "That company code doesn't exist or isn't available to you."
+msgstr "Ese código de empresa no existe o no está disponible para usted."
+
+msgid "Only letters, numbers, - and _ are allowed."
+msgstr "Solo se permiten letras, números, - y _."
+
+msgid "Only letters, numbers and _ are allowed."
+msgstr "Solo se permiten letras, números y _."
+
+msgid "code"
+msgstr "código"
+
+msgid "name"
+msgstr "nombre"
+
+msgid "tax ID (RIF)"
+msgstr "RIF"
+
+msgid "Profit database"
+msgstr "Base de datos de Profit"
+
+msgid "Name of this company's database in Profit (SQL Server)."
+msgstr "Nombre de la base de datos de esta empresa en Profit (SQL Server)."
+
+msgid "active"
+msgstr "activa"
+
+msgid "created"
+msgstr "creada"
+
+msgid "company"
+msgstr "empresa"
+
+msgid "companies"
+msgstr "empresas"
+
+msgid "Choose company"
+msgstr "Elegir empresa"
+
+msgid "Which company will you work with?"
+msgstr "¿Con qué empresa va a trabajar?"
+
+msgid "Continue"
+msgstr "Continuar"
+
+msgid "Or pick one"
+msgstr "O elija una"
+
+msgid "last used"
+msgstr "última usada"
+
+msgid "Hi, %(nombre)s"
+msgstr "Hola, %(nombre)s"
+
+msgid "No companies are set up yet. Ask the administrator to add one (<code>python manage.py crear_empresa</code>)."
+msgstr "Todavía no hay empresas registradas. Pídale al administrador que agregue una (<code>python manage.py crear_empresa</code>)."
+
+msgid "Not %(usuario)s? Sign out"
+msgstr "¿No es %(usuario)s? Salir"
+
+msgid "Now working with %(empresa)s"
+msgstr "Trabajando con %(empresa)s"

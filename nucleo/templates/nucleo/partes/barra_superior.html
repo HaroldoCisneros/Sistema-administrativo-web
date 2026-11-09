@@ -1,0 +1,84 @@
+{% comment %}
+  nucleo/templates/nucleo/partes/barra_superior.html
+  ==================================================
+  Barra superior de las pantallas de trabajo (la incluye plantilla_app.html).
+
+  De izquierda a derecha:
+    ☰        abre el menú lateral (solo en el teléfono)
+    marca    lleva al inicio (nucleo/partes/marca.html; ahí irá el logo nuevo)
+    buscador busca cualquier opción del menú (atajo: tecla "/" o Ctrl+K)
+    empresa  la empresa con la que se trabaja; al tocarla se puede cambiar
+    usuario  nombre e iniciales; abre un menú con "Salir"
+
+  Los textos van en inglés dentro de {% translate %}; la traducción al
+  español está en nucleo/locale/es/LC_MESSAGES/django.po.
+{% endcomment %}
+{% load iconos formato i18n %}
+<header class="barra">
+  {# Botón ☰ del teléfono. aria-controls dice qué abre; aria-expanded lo cambia app.js. #}
+  <button type="button" class="barra__boton barra__hamburguesa" data-abrir-lateral
+          aria-controls="lateral" aria-expanded="false" aria-label="{% translate 'Open menu' %}">
+    {% icono "menu" %}
+  </button>
+
+  {# Marca: lleva al inicio #}
+  <a class="barra__logo" href="{% url 'nucleo:inicio' %}" aria-label="{{ marca }} - {% translate 'Home' %}">
+    {% include "nucleo/partes/marca.html" %}
+  </a>
+
+  {# ===== Buscador de opciones del menú (lo maneja app.js) ===== #}
+  <div class="buscador" data-buscador>
+    {% icono "buscar" "buscador__lupa" %}
+    {# role="combobox": le dice a los lectores de pantalla que despliega una lista #}
+    <input type="search" class="buscador__campo" id="buscador-campo" placeholder="{% translate 'Search options…' %}"
+           autocomplete="off" spellcheck="false" role="combobox"
+           aria-controls="buscador-lista" aria-expanded="false" aria-label="{% translate 'Search menu options' %}">
+    {# Recordatorio del atajo de teclado (se oculta en el teléfono) #}
+    <kbd class="buscador__atajo" aria-hidden="true">/</kbd>
+    {# Aquí app.js pone los resultados #}
+    <ul class="buscador__lista" id="buscador-lista" role="listbox" hidden></ul>
+  </div>
+  {# Botón lupa del teléfono: muestra el buscador encima de la barra #}
+  <button type="button" class="barra__boton barra__lupa" data-abrir-buscador aria-label="{% translate 'Search' %}">
+    {% icono "buscar" %}
+  </button>
+
+  {# ===== Empresa actual: al tocarla se va a la pantalla para cambiarla ===== #}
+  {% if empresa %}
+    <a class="empresa-chip" href="{% url 'empresas:seleccionar' %}" title="{% translate 'Change company' %}">
+      {% icono "empresa" %}
+      <span class="empresa-chip__texto">
+        <strong>{{ empresa.codigo }}</strong>
+        <span class="empresa-chip__nombre">{{ empresa.nombre }}</span>
+      </span>
+      {% icono "cambiar" "empresa-chip__cambiar" %}
+    </a>
+  {% endif %}
+
+  {# ===== Usuario: <details> abre y cierra el menú sin necesitar JavaScript ===== #}
+  <details class="usuario" data-menu-usuario>
+    <summary class="usuario__boton" aria-label="{% translate 'User menu' %}">
+      {# Iniciales del nombre (filtro iniciales de nucleo/templatetags/formato.py) #}
+      <span class="usuario__avatar">{{ user.first_name|default:user.username|iniciales }}</span>
+      <span class="usuario__nombre">{{ user.first_name|default:user.username|title }}</span>
+      {% icono "abajo" "usuario__flecha" %}
+    </summary>
+    <div class="usuario__panel">
+      <p class="usuario__quien">
+        <strong>{{ user.first_name|default:user.username|title }}</strong>
+        {# blocktranslate: texto traducible que lleva un dato adentro #}
+        <span>{% blocktranslate with codigo=user.username %}User {{ codigo }}{% endblocktranslate %}</span>
+      </p>
+      <a class="usuario__opcion" href="{% url 'empresas:seleccionar' %}">{% icono "cambiar" %} {% translate "Change company" %}</a>
+      {# El panel de administración de Django solo para administradores #}
+      {% if user.is_staff %}
+        <a class="usuario__opcion" href="{% url 'admin:index' %}">{% icono "admin" %} {% translate "Admin panel" %}</a>
+      {% endif %}
+      {# Salir es un formulario POST (así lo exige Django por seguridad) #}
+      <form method="post" action="{% url 'cuentas:salir' %}">
+        {% csrf_token %}
+        <button type="submit" class="usuario__opcion usuario__opcion--salir">{% icono "salir" %} {% translate "Sign out" %}</button>
+      </form>
+    </div>
+  </details>
+</header>

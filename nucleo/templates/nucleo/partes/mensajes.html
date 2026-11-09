@@ -1,0 +1,21 @@
+{% comment %}
+  nucleo/templates/nucleo/partes/mensajes.html
+  ============================================
+  Avisos cortos que una pantalla deja para la siguiente (framework de
+  mensajes de Django). Ejemplo, en una vista:
+      messages.success(request, _("Now working with %(empresa)s") % {"empresa": "CF01"})
+  Cada aviso se puede cerrar con la X (lo maneja app.js) y se va solo a los
+  6 segundos.
+{% endcomment %}
+{% load iconos i18n %}
+{% if messages %}
+  <div class="avisos" role="status">
+    {% for m in messages %}
+      {# m.tags es "success", "error", "warning" o "info" #}
+      <div class="aviso aviso--{{ m.tags }}" data-aviso>
+        <span>{{ m }}</span>
+        <button type="button" class="aviso__cerrar" data-cerrar-aviso aria-label="{% translate 'Dismiss' %}">{% icono "cerrar" %}</button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

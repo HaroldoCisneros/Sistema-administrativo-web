@@ -1,0 +1,51 @@
+{% comment %}
+  nucleo/templates/nucleo/base.html
+  =================================
+  Plantilla base de TODO el sistema: solo lo mínimo que lleva cualquier
+  pantalla (cabecera <head>, estilos comunes y JavaScript común).
+
+  De ella salen las otras dos plantillas del núcleo:
+    nucleo/plantilla_acceso.html  -> login y elección de empresa (sin menú)
+    nucleo/plantilla_app.html     -> todas las pantallas de trabajo (con menú)
+
+  Bloques que se pueden rellenar:
+    {% block titulo %}       texto de la pestaña del navegador
+    {% block estilos %}      hojas de estilo propias (css)
+    {% block clase_body %}   clase del <body> (cambia el diseño general)
+    {% block cuerpo %}       todo lo que va dentro del <body>
+    {% block scripts %}      JavaScript propio
+
+  IDIOMA: {% load i18n %} activa las etiquetas de traducción. Los textos se
+  escriben en inglés con {% translate "..." %} y su traducción al español
+  está en nucleo/locale/es/LC_MESSAGES/django.po (ver LEEME.txt, "IDIOMAS").
+{% endcomment %}
+{% load static i18n %}<!DOCTYPE html>
+{# get_current_language: el idioma activo ("es" o "en"), para la etiqueta lang #}
+{% get_current_language as IDIOMA %}
+<html lang="{{ IDIOMA }}">
+<head>
+  <meta charset="utf-8">
+  {# Para que en el teléfono se vea al tamaño real y no "alejado" #}
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  {# Color de la barra del navegador en el teléfono (azul de la marca) #}
+  <meta name="theme-color" content="#2a3653">
+  <title>{% block titulo %}{{ nombre_sistema }}{% endblock %} · {{ marca }}</title>
+  {# Íconos de la pestaña y de acceso directo en el teléfono #}
+  <link rel="icon" type="image/png" href="{% static 'nucleo/img/favicon.png' %}">
+  <link rel="apple-touch-icon" href="{% static 'nucleo/img/apple-touch-icon.png' %}">
+  {# Estilos comunes a todo el sistema (colores, botones, campos, tarjetas) #}
+  <link rel="stylesheet" href="{% static 'nucleo/css/base.css' %}">
+  {# Estilos propios de la plantilla o de la pantalla #}
+  {% block estilos %}{% endblock %}
+</head>
+<body class="{% block clase_body %}{% endblock %}">
+  {% block cuerpo %}{% endblock %}
+
+  {# Textos que usa JavaScript, ya traducidos (los arma nucleo/context_processors.py) #}
+  {{ textos_js|json_script:"textos-js" }}
+  {# Funciones de JavaScript comunes (textos, formatos de números/fechas y llamadas a la API) #}
+  <script src="{% static 'nucleo/js/comun.js' %}"></script>
+  {# JavaScript propio de la plantilla o de la pantalla #}
+  {% block scripts %}{% endblock %}
+</body>
+</html>

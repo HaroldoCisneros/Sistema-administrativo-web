@@ -1,0 +1,114 @@
+# inventario/locale/es/LC_MESSAGES/django.po
+# Traducciones al ESPAÑOL del módulo Inventario.
+#
+# Cómo se usa:
+#   msgid  = el texto en inglés, EXACTAMENTE como está en el código o la plantilla.
+#   msgstr = su traducción. Si se deja vacío (""), se muestra en inglés.
+#   %(nombre)s y {nombre} son datos que se ponen después (no se traducen, solo se mueven).
+# Después de editar este archivo:
+#   python manage.py compilar_idiomas      (crea el django.mo que lee Django)
+#   y reiniciar el sistema.
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+
+msgid "Inventory"
+msgstr "Inventario"
+
+msgid "Items, warehouses, stock movements and physical counts."
+msgstr "Artículos, almacenes, movimientos de existencia y conteos físicos."
+
+msgid "Items"
+msgstr "Artículos"
+
+msgid "Composite items"
+msgstr "Artículos Compuestos"
+
+msgid "Item lines"
+msgstr "Líneas de Artículo"
+
+msgid "Item categories"
+msgstr "Categorías de Artículo"
+
+msgid "Sub-lines"
+msgstr "Sub-líneas"
+
+msgid "Origins"
+msgstr "Procedencias"
+
+msgid "Colors"
+msgstr "Colores"
+
+msgid "Units"
+msgstr "Unidades"
+
+msgid "Branches"
+msgstr "Sucursales"
+
+msgid "Warehouses"
+msgstr "Almacenes"
+
+msgid "Adjustment types"
+msgstr "Tipos de Ajuste"
+
+msgid "Suppliers"
+msgstr "Proveedores"
+
+msgid "Inventory adjustments"
+msgstr "Ajustes de Inventario"
+
+msgid "Inventory transfers between warehouses"
+msgstr "Traslados de Inventario entre Almacenes"
+
+msgid "Physical inventory count"
+msgstr "Conteo de Inventario Físico"
+
+msgid "Prepare and close count"
+msgstr "Preparar y Cerrar Físico"
+
+msgid "Enter count results"
+msgstr "Ingresar Resultados Físico"
+
+msgid "Price adjustment"
+msgstr "Ajuste de Precios"
+
+msgid "Automatic"
+msgstr "Automático"
+
+msgid "Manual"
+msgstr "Manual"
+
+msgid "Composite items generation"
+msgstr "Generación de Compuestos"
+
+msgid "Inbound and outbound adjustments"
+msgstr "Ajustes de Entrada y Salida"
+
+msgid "Transfers between warehouses"
+msgstr "Traslados entre Almacenes"
+
+msgid "Physical inventory"
+msgstr "Inventario Físico"
+
+msgid "Inventory movements"
+msgstr "Movimientos de Inventario"
+
+msgid "Inventory tables"
+msgstr "Tablas de Inventario"
+
+msgid "Generated composite items"
+msgstr "Compuestos Generados"
+
+msgid "Price Product Info"
+msgstr "Ficha de precios del artículo"
+
+msgid "Item stock"
+msgstr "Existencia del artículo"
+
+msgid "Item movements"
+msgstr "Movimientos del artículo"
+
+msgid "Item locations"
+msgstr "Ubicaciones del artículo"

@@ -1,0 +1,18 @@
+{% comment %}
+  nucleo/templates/nucleo/escaner.html
+  ====================================
+  HTML del escáner de códigos de barras con la cámara. Se incluye en
+  cualquier pantalla con {% include "nucleo/escaner.html" %} y se maneja
+  desde nucleo/static/nucleo/js/escaner.js. Empieza oculto.
+{% endcomment %}
+{% load i18n %}
+<div id="escaner" class="escaner" hidden>
+  <div class="escaner__caja">
+    <p class="escaner__titulo">{% translate "Point the camera at the barcode" %}</p>
+    {# Aquí la librería dibuja el video de la cámara #}
+    <div id="lector" class="escaner__video"></div>
+    {# Mensajes de error (sin https, sin permiso de cámara...) #}
+    <p id="escaner-error" class="aviso aviso--error" hidden></p>
+    <button type="button" id="btn-cerrar-escaner" class="boton boton--ancho">{% translate "Cancel" %}</button>
+  </div>
+</div>

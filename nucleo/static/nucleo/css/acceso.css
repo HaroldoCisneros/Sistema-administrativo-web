@@ -1,0 +1,113 @@
+/* =============================================================================
+   nucleo/static/nucleo/css/acceso.css
+   Estilos de las pantallas de ACCESO (nucleo/templates/nucleo/plantilla_acceso.html):
+     paso 1: Sign in          (cuentas/templates/cuentas/login.html)
+     paso 2: Choose company   (empresas/templates/empresas/seleccionar.html)
+
+   Teléfono: franja azul arriba con la marca y, debajo, la tarjeta del formulario.
+   PC (900px o más): panel azul a la izquierda y formulario a la derecha.
+   ============================================================================= */
+
+/* ---------- Marco general ---------- */
+.acceso { min-height: 100vh; min-height: 100dvh; }            /* dvh: alto real en el teléfono */
+.acceso__marco { min-height: inherit; display: flex; flex-direction: column; }
+
+/* ---------- Panel de la marca ---------- */
+.acceso__marca {
+  position: relative; overflow: hidden; color: #fff;
+  padding: 22px 20px 54px;                                    /* abajo deja espacio para montar la tarjeta */
+  padding-top: max(22px, env(safe-area-inset-top));           /* respeta la "ceja" del iPhone */
+  /* Degradado con los azules de la marca */
+  background: linear-gradient(150deg, var(--marca-media) 0%, var(--marca) 45%, var(--marca-oscura) 100%);
+}
+/* Dibujo de fondo: dos círculos tenues que le dan profundidad al panel */
+.acceso__marca::before, .acceso__marca::after {
+  content: ""; position: absolute; border-radius: 50%; pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+.acceso__marca::before { width: 520px; height: 520px; right: -220px; bottom: -260px;
+                         background: radial-gradient(circle, rgba(255, 255, 255, .07), transparent 65%); }
+.acceso__marca::after  { width: 300px; height: 300px; right: -60px; bottom: -150px; }
+
+.acceso__logo { position: relative; }                        /* marca (y más adelante el logo) */
+.acceso__texto { display: none; position: relative; }       /* en el teléfono no se muestra */
+.acceso__pie { display: none; position: relative; }
+
+/* ---------- Zona del formulario ---------- */
+.acceso__principal { flex: 1; display: flex; justify-content: center; align-items: flex-start;  /* la tarjeta no se estira */
+                     padding: 0 16px 32px; }
+.acceso__tarjeta { width: 100%; max-width: 440px; margin-top: -34px; position: relative;  /* se monta sobre la franja azul */
+                   padding: 26px 22px; box-shadow: var(--sombra-alta); }
+.acceso__tarjeta h2 { margin: 0 0 4px; font-size: 1.45rem; }
+.acceso__tarjeta > .suave { margin-bottom: 22px; }
+
+/* ---------- Indicador de pasos (1 Sign in · 2 Company) ---------- */
+.pasos { list-style: none; display: flex; gap: 8px; margin: 0 0 20px; padding: 0; font-size: .82rem; }
+.pasos__paso { display: flex; align-items: center; gap: 6px; color: var(--tenue); font-weight: 600; }
+.pasos__paso + .pasos__paso::before {                         /* rayita entre los pasos */
+  content: ""; width: 22px; height: 2px; border-radius: 2px; background: var(--borde); margin-right: 2px;
+}
+.pasos__paso span { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+                    border: 2px solid var(--borde); font-size: .72rem; }
+.pasos__paso.actual { color: var(--marca); }                  /* paso en el que está */
+.pasos__paso.actual span { border-color: var(--marca); background: var(--marca); color: #fff; }
+.pasos__paso.hecho { color: var(--exito); }                   /* paso ya completado */
+.pasos__paso.hecho span { border-color: var(--exito); color: var(--exito); }
+
+/* ---------- Saludo del paso 2 (círculo con iniciales + nombre) ---------- */
+.saludo-usuario { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.saludo-usuario__avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+                          background: var(--marca-suave); color: var(--marca); font-weight: 700; flex: none; }
+.saludo-usuario h2 { margin: 0; }
+.saludo-usuario p { margin: 2px 0 0; color: var(--suave); font-size: .92rem; }
+
+/* ---------- Lista de empresas para elegir con un toque ---------- */
+.empresas { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.empresas__titulo { display: flex; align-items: center; gap: 10px; margin: 22px 0 10px;
+                    font-size: .78rem; font-weight: 700; color: var(--tenue);
+                    text-transform: uppercase; letter-spacing: .06em; }
+.empresas__titulo::after { content: ""; flex: 1; height: 1px; background: var(--linea); }  /* línea a la derecha */
+.empresa-opcion {
+  width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 14px; text-align: left;
+  border: 1px solid var(--borde); border-radius: var(--radio-chico); background: var(--superficie);
+  font: inherit; color: inherit; cursor: pointer; transition: border-color .15s, background .15s, transform .15s;
+}
+.empresa-opcion:hover { border-color: var(--marca); background: var(--marca-suave); }
+.empresa-opcion:active { transform: scale(.99); }
+.empresa-opcion__codigo { flex: none; min-width: 58px; padding: 6px 8px; border-radius: 8px; text-align: center;
+                          background: var(--marca); color: #fff; font-weight: 700; font-size: .85rem; letter-spacing: .03em; }
+.empresa-opcion__textos { flex: 1; display: grid; min-width: 0; }
+.empresa-opcion__textos strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.empresa-opcion__textos small { color: var(--suave); }
+.empresa-opcion > .icono { color: var(--tenue); }
+.empresa-opcion--ultima { border-color: #cfd8ea; }           /* la última empresa usada */
+.empresas__sin { margin-top: 18px; }                         /* aviso "no hay empresas" */
+
+/* Enlace para salir debajo del formulario */
+.acceso__otro { margin: 18px 0 0; text-align: center; font-size: .92rem; }
+.acceso__otro button { border: 0; background: none; color: var(--suave); font: inherit; cursor: pointer;
+                       text-decoration: underline; text-underline-offset: 3px; }
+.acceso__otro button:hover { color: var(--marca); }
+
+/* =============================================================================
+   PC: dos paneles lado a lado
+   ============================================================================= */
+@media (min-width: 900px) {
+  .acceso__marco { flex-direction: row; }
+  .acceso__marca { width: 44%; max-width: 620px; padding: 48px 52px; display: flex; flex-direction: column; }
+  .acceso__logo .marca__simbolo { width: 46px; height: 46px; border-radius: 12px; }
+  .acceso__logo .marca__textos strong { font-size: 1.25rem; }
+  .acceso__texto { display: block; margin: auto 0; }         /* centra el texto en el alto que sobra */
+  .acceso__texto h1 { font-size: 2.1rem; margin: 0 0 8px; }
+  .acceso__texto > p { margin: 0 0 28px; color: #c9d2e6; font-size: 1.05rem; max-width: 30ch; }
+  .acceso__pie { display: block; margin: 40px 0 0; color: #94a3c4; font-size: .85rem; }
+
+  /* Lista de módulos con íconos dentro de cuadritos translúcidos */
+  .acceso__modulos { list-style: none; margin: 0 0 auto; padding: 0; display: grid; gap: 12px; }
+  .acceso__modulos li { display: flex; align-items: center; gap: 12px; color: #e2e8f5; font-weight: 600; }
+  .acceso__modulos .icono { width: 36px; height: 36px; padding: 8px; border-radius: 10px;
+                            background: rgba(255, 255, 255, .09); border: 1px solid rgba(255, 255, 255, .12); }
+
+  .acceso__principal { align-items: center; padding: 40px; }
+  .acceso__tarjeta { margin-top: 0; padding: 36px 34px; box-shadow: var(--sombra); }
+}

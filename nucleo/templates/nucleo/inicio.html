@@ -1,0 +1,92 @@
+{% extends "nucleo/plantilla_app.html" %}
+{% comment %}
+  NOTA: {% extends %} debe ser siempre la PRIMERA línea (regla de Django).
+
+  nucleo/templates/nucleo/inicio.html
+  ===================================
+  Tablero de inicio (nucleo/views.py, inicio). Tiene tres partes:
+    1. Saludo con la fecha.
+    2. Un recuadro por cada módulo, con accesos directos a sus 4 secciones.
+    3. Columna "Tu sesión" (Your session): empresa, base de Profit y usuario.
+
+  Los módulos salen de {{ menu_modulos }}, así que cuando se agregue un
+  módulo nuevo aparece aquí solo.
+{% endcomment %}
+{% load iconos formato i18n %}
+
+{% block titulo %}{% translate "Home" %}{% endblock %}
+
+{% block contenido %}
+{# ================= 1. Saludo ================= #}
+<section class="hola">
+  {% comment %}
+    ahora = fecha y hora de Venezuela (la manda la vista).
+    El formato de la fecha también se traduce: en inglés "l, F j, Y" da
+    "Monday, October 5, 2026"; en español se traduce a otro formato que da
+    "lunes, 5 de octubre de 2026". "as" guarda el texto traducido en una variable.
+  {% endcomment %}
+  {% translate "l, F j, Y" as formato_fecha %}
+  <p class="hola__fecha">{% icono "calendario" %} {{ ahora|date:formato_fecha|capfirst }}</p>
+  <h1>{{ ahora|saludo }}, {{ user.first_name|default:user.username|title }}</h1>
+  <p class="suave">{% blocktranslate %}Choose a module to get started, or press <kbd>/</kbd> to search any option.{% endblocktranslate %}</p>
+</section>
+
+<div class="tablero">
+  {# ================= 2. Módulos ================= #}
+  <section class="tablero__modulos" aria-label="{% translate 'Modules' %}">
+    {% for m in menu_modulos %}
+      {# --acento: el color del módulo; lo usa el CSS para el ícono y los bordes #}
+      <article class="tarjeta-modulo" style="--acento: {{ m.color }}">
+        <a class="tarjeta-modulo__cabeza" href="{{ m.url }}">
+          <span class="tarjeta-modulo__icono">{% icono m.icono %}</span>
+          <span class="tarjeta-modulo__textos">
+            <strong>{{ m.titulo }}</strong>
+            <span>{{ m.descripcion }}</span>
+          </span>
+          {% icono "derecha" "tarjeta-modulo__ir" %}
+        </a>
+        {# Accesos a las 4 secciones, con la cantidad de opciones de cada una #}
+        <ul class="tarjeta-modulo__secciones">
+          {% for s in m.secciones %}
+            <li>
+              <a href="{{ s.url }}">
+                {% icono s.icono %}
+                <span>{{ s.titulo }}</span>
+                <span class="cuenta">{{ s.total }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </article>
+    {% empty %}
+      <p class="suave">{% translate "You don't have modules assigned yet." %}</p>
+    {% endfor %}
+  </section>
+
+  {# ================= 3. Datos de la sesión ================= #}
+  <aside class="tarjeta sesion" aria-label="{% translate 'Your session' %}">
+    <h2>{% translate "Your session" %}</h2>
+    <dl class="sesion__datos">
+      <div>
+        <dt>{% icono "empresa" %} {% translate "Company" %}</dt>
+        <dd><strong>{{ empresa.codigo }}</strong> · {{ empresa.nombre }}</dd>
+      </div>
+      {% if empresa.rif %}
+        <div>
+          <dt>{% icono "tablas" %} {% translate "Tax ID (RIF)" %}</dt>
+          <dd>{{ empresa.rif }}</dd>
+        </div>
+      {% endif %}
+      <div>
+        <dt>{% icono "base" %} {% translate "Profit database" %}</dt>
+        <dd>{{ empresa.base_profit }}</dd>
+      </div>
+      <div>
+        <dt>{% icono "usuario" %} {% translate "User" %}</dt>
+        <dd>{{ user.username }}{% if user.first_name %} · {{ user.first_name|title }}{% endif %}</dd>
+      </div>
+    </dl>
+    <a class="boton boton--ancho" href="{% url 'empresas:seleccionar' %}">{% icono "cambiar" %} {% translate "Change company" %}</a>
+  </aside>
+</div>
+{% endblock %}

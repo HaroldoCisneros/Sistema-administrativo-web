@@ -1,0 +1,183 @@
+# nucleo/locale/es/LC_MESSAGES/django.po
+# Traducciones al ESPAÑOL del módulo núcleo (diseño, menú, tablero).
+#
+# Cómo se usa:
+#   msgid  = el texto en inglés, EXACTAMENTE como está en el código o la plantilla.
+#   msgstr = su traducción. Si se deja vacío (""), se muestra en inglés.
+#   %(nombre)s y {nombre} son datos que se ponen después (no se traducen, solo se mueven).
+# Después de editar este archivo:
+#   python manage.py compilar_idiomas      (crea el django.mo que lee Django)
+#   y reiniciar el sistema.
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+
+msgid "Core"
+msgstr "Núcleo"
+
+msgid "No options match “{texto}”"
+msgstr "Ninguna opción coincide con “{texto}”"
+
+msgid "Soon"
+msgstr "Pronto"
+
+msgid "No connection with the server."
+msgstr "No hay conexión con el servidor."
+
+msgid "Session expired."
+msgstr "La sesión venció."
+
+msgid "Error {codigo}"
+msgstr "Error {codigo}"
+
+msgid "The camera only works when the page is opened with https://"
+msgstr "La cámara solo funciona cuando la página se abre con https://"
+
+msgid "Could not open the camera. Check that the browser is allowed to use it."
+msgstr "No se pudo abrir la cámara. Revise que el navegador tenga permiso para usarla."
+
+msgid "Tables"
+msgstr "Tablas"
+
+msgid "Master data and catalogs"
+msgstr "Datos maestros y catálogos"
+
+msgid "Processes"
+msgstr "Procesos"
+
+msgid "Day-to-day transactions"
+msgstr "Operaciones del día a día"
+
+msgid "Reports"
+msgstr "Reportes"
+
+msgid "Printable and exportable reports"
+msgstr "Listados para imprimir o exportar"
+
+msgid "Queries"
+msgstr "Consultas"
+
+msgid "Quick on-screen look-ups"
+msgstr "Consultas rápidas en pantalla"
+
+msgid "Point the camera at the barcode"
+msgstr "Apunte la cámara al código de barras"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Home"
+msgstr "Inicio"
+
+msgid "l, F j, Y"
+msgstr "l, j \\d\\e F \\d\\e Y"
+
+msgid "Modules"
+msgstr "Módulos"
+
+msgid "You don't have modules assigned yet."
+msgstr "Todavía no tiene módulos asignados."
+
+msgid "Your session"
+msgstr "Tu sesión"
+
+msgid "Company"
+msgstr "Empresa"
+
+msgid "Tax ID (RIF)"
+msgstr "RIF"
+
+msgid "Profit database"
+msgstr "Base de datos de Profit"
+
+msgid "User"
+msgstr "Usuario"
+
+msgid "Change company"
+msgstr "Cambiar de empresa"
+
+msgid "Choose a module to get started, or press <kbd>/</kbd> to search any option."
+msgstr "Elija un módulo para comenzar, o presione <kbd>/</kbd> para buscar cualquier opción."
+
+msgid "Breadcrumb"
+msgstr "Ruta de navegación"
+
+msgid "Sections"
+msgstr "Secciones"
+
+msgid "No options in this section yet."
+msgstr "Todavía no hay opciones en esta sección."
+
+msgid "Shared with %(modulo)s"
+msgstr "Compartida con %(modulo)s"
+
+msgid "Main menu"
+msgstr "Menú principal"
+
+msgid "Menu"
+msgstr "Menú"
+
+msgid "Close menu"
+msgstr "Cerrar menú"
+
+msgid "Overview"
+msgstr "Vista general"
+
+msgid "No options yet"
+msgstr "Todavía sin opciones"
+
+msgid "Open menu"
+msgstr "Abrir menú"
+
+msgid "Search options…"
+msgstr "Buscar opciones…"
+
+msgid "Search menu options"
+msgstr "Buscar opciones del menú"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "User menu"
+msgstr "Menú del usuario"
+
+msgid "Admin panel"
+msgstr "Panel de administración"
+
+msgid "Sign out"
+msgstr "Salir"
+
+msgid "User %(codigo)s"
+msgstr "Usuario %(codigo)s"
+
+msgid "Dismiss"
+msgstr "Cerrar"
+
+msgid "This option is under construction. It will be available here as soon as it's ready."
+msgstr "Esta opción está en construcción. Estará disponible aquí en cuanto esté lista."
+
+msgid "Back to %(modulo)s"
+msgstr "Volver a %(modulo)s"
+
+msgid "Everything your company runs on, in one place."
+msgstr "Todo lo que mueve a su empresa, en un solo lugar."
+
+msgid "Steps"
+msgstr "Pasos"
+
+msgid "Sign in"
+msgstr "Iniciar sesión"
+
+msgid "Good morning"
+msgstr "Buenos días"
+
+msgid "Good afternoon"
+msgstr "Buenas tardes"
+
+msgid "Good evening"
+msgstr "Buenas noches"
+
+msgid "Administrative System"
+msgstr "Sistema Administrativo"

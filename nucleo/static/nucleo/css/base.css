@@ -1,0 +1,189 @@
+/* =============================================================================
+   nucleo/static/nucleo/css/base.css
+   Estilos comunes de TODO el sistema: colores de la marca, letras, botones,
+   campos, tarjetas, avisos, tablas y el escáner de la cámara.
+
+   Los otros archivos de estilos del núcleo:
+     acceso.css  -> pantallas de login y de elegir empresa
+     app.css     -> diseño de trabajo (barra superior, menú lateral, tablero,
+                    página de módulo y "Under construction")
+   Cada módulo agrega sus propios estilos en su carpeta
+   (por ejemplo inventario/static/inventario/css/...).
+
+   Enfoque "móvil primero": los estilos base son para el teléfono y los
+   bloques @media ajustan para pantallas más anchas.
+   ============================================================================= */
+
+/* ---------- Variables: colores y medidas usados en todo el sistema ---------- */
+:root {
+  /* Marca */
+  --marca: #2a3653;          /* azul de la marca */
+  --marca-oscura: #1b2440;   /* versión más oscura (botón al pasar el mouse) */
+  --marca-media: #3d4c74;    /* intermedio (degradados) */
+  --marca-suave: #e9edf6;    /* fondo muy claro con el tono de la marca */
+
+  /* Superficies y texto */
+  --fondo: #f3f5f9;          /* fondo general de las pantallas */
+  --superficie: #ffffff;     /* fondo de tarjetas, barra y menú */
+  --superficie-2: #f8fafc;   /* fondo de zonas secundarias dentro de una tarjeta */
+  --texto: #0f172a;          /* texto principal */
+  --suave: #5b6b82;          /* texto secundario */
+  --tenue: #94a3b8;          /* texto aún más secundario (contadores, pistas) */
+  --borde: #dfe4ec;          /* bordes */
+  --linea: #edf0f5;          /* líneas divisorias finas */
+
+  /* Estados */
+  --error: #b91c1c;          /* mensajes de error */
+  --exito: #15803d;          /* mensajes de éxito */
+  --alerta: #b45309;         /* advertencias */
+  --rojo: #dc2626;           /* alertas fuertes */
+
+  /* Medidas */
+  --radio: 14px;             /* redondeo de las tarjetas */
+  --radio-chico: 10px;       /* redondeo de botones y campos */
+  --sombra: 0 1px 2px rgba(15, 23, 42, .05), 0 6px 20px rgba(15, 23, 42, .05);
+  --sombra-alta: 0 12px 40px rgba(15, 23, 42, .16);
+  --alto-barra: 60px;        /* alto de la barra superior */
+
+  /* Fuentes del sistema operativo: Segoe UI en Windows, Roboto en Android, etc.
+     (no se descargan fuentes de internet: carga rápido y funciona sin conexión externa) */
+  font-family: "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- Reglas generales ---------- */
+* { box-sizing: border-box; }                       /* el ancho incluye bordes y relleno */
+html { -webkit-text-size-adjust: 100%; }            /* el iPhone no agranda el texto solo */
+body { margin: 0; background: var(--fondo); color: var(--texto); line-height: 1.45; }
+[hidden] { display: none !important; }              /* lo marcado como oculto, se oculta siempre */
+h1, h2, h3 { line-height: 1.2; letter-spacing: -.01em; }
+a { color: var(--marca); }
+.solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } /* visible solo para lectores de pantalla */
+.suave { color: var(--suave); margin-top: 0; }      /* texto secundario */
+.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }  /* números alineados */
+.centro { text-align: center; white-space: nowrap; }
+
+/* Tecla de teclado, por ejemplo <kbd>/</kbd> */
+kbd {
+  display: inline-block; min-width: 1.6em; padding: 1px 6px; border-radius: 6px;
+  border: 1px solid var(--borde); border-bottom-width: 2px; background: var(--superficie);
+  font: 600 .78rem/1.4 ui-monospace, Consolas, monospace; color: var(--suave); text-align: center;
+}
+
+/* ---------- Íconos ({% icono %} de nucleo/templatetags/iconos.py) ---------- */
+.icono {
+  width: 20px; height: 20px; flex: none;            /* tamaño normal */
+  fill: none; stroke: currentColor;                 /* solo trazo, del color del texto */
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  vertical-align: middle;
+}
+
+/* ---------- Marca provisional (nucleo/templates/nucleo/partes/marca.html) ----------
+   Símbolo en un cuadro + la marca (SIGHEC) y el nombre del sistema. Cuando llegue el
+   logo nuevo se reemplaza el HTML de marca.html y estos estilos. */
+.marca { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.marca__simbolo { width: 36px; height: 36px; flex: none; display: grid; place-items: center;
+                  border-radius: 10px; background: var(--marca); color: #fff; }
+.marca__simbolo .icono { width: 22px; height: 22px; }
+.marca__textos { display: grid; line-height: 1.15; min-width: 0; }
+.marca__textos strong { font-size: 1.05rem; font-weight: 800; letter-spacing: .06em; color: var(--marca);
+                        overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.marca__textos small { font-size: .75rem; color: var(--suave); }
+/* Variante clara, para fondos oscuros (panel azul del login) */
+.marca--clara .marca__simbolo { background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 255, 255, .22); }
+.marca--clara .marca__textos strong { color: #fff; }
+.marca--clara .marca__textos small { color: #c9d2e6; }
+
+/* ---------- Botones ---------- */
+.boton {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 0 16px; border-radius: var(--radio-chico);   /* 44px: cómodo para el dedo */
+  border: 1px solid var(--borde); background: var(--superficie); color: var(--texto);
+  font: inherit; font-weight: 600; text-decoration: none; cursor: pointer;
+  transition: background .15s, border-color .15s, box-shadow .15s;
+}
+.boton:hover { border-color: #b6c0d0; background: var(--superficie-2); }
+.boton:disabled { opacity: .6; cursor: default; }
+.boton--primario { background: var(--marca); border-color: var(--marca); color: #fff; }
+.boton--primario:hover { background: var(--marca-oscura); border-color: var(--marca-oscura); }
+.boton--oscuro { background: var(--marca-oscura); border-color: var(--marca-oscura); color: #fff; }
+.boton--ancho { width: 100%; }
+.boton--icono { min-width: 44px; padding: 0; }
+.boton--chico { min-height: 36px; padding: 0 12px; font-size: .9rem; }
+.boton--grande { min-height: 50px; font-size: 1.02rem; }
+
+/* Marca visible al moverse con el teclado (Tab) por botones, campos y enlaces */
+:focus-visible { outline: 3px solid #9fb0d6; outline-offset: 2px; }
+
+/* ---------- Campos de texto ---------- */
+.campo { display: grid; gap: 6px; margin-bottom: 16px; }
+.campo__etiqueta { font-weight: 600; font-size: .92rem; }
+.campo__ayuda { font-size: .85rem; color: var(--suave); }
+/* Campo con ícono a la izquierda (login y empresa) */
+.campo__caja { position: relative; display: flex; align-items: center; }
+.campo__caja > .icono { position: absolute; left: 14px; color: var(--tenue); pointer-events: none; }
+input[type="text"], input[type="password"], input[type="search"], input[type="number"], select {
+  width: 100%; min-height: 48px; padding: 0 14px; border-radius: var(--radio-chico);
+  border: 1px solid var(--borde); background: #fff; color: var(--texto);
+  font: inherit; font-size: 16px;                   /* 16px evita que el iPhone haga zoom al escribir */
+  transition: border-color .15s, box-shadow .15s;
+}
+input:focus, select:focus { outline: none; border-color: var(--marca); box-shadow: 0 0 0 3px rgba(42, 54, 83, .15); }
+input[aria-invalid="true"] { border-color: var(--error); }
+.campo__caja > .icono { z-index: 1; }                 /* el ícono queda encima del fondo del campo */
+.campo__caja > input[type] { padding-left: 44px; }    /* deja lugar al ícono ([type] le da más peso que la regla general) */
+
+/* ---------- Tarjetas ---------- */
+.tarjeta { background: var(--superficie); border-radius: var(--radio); box-shadow: var(--sombra);
+           border: 1px solid var(--linea); padding: 20px; }
+
+/* ---------- Avisos ---------- */
+.aviso { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: var(--radio-chico);
+         margin: 0 0 14px; font-size: .95rem; border: 1px solid transparent; }
+.aviso > span { flex: 1; }
+.aviso--error   { background: #fef2f2; color: var(--error);  border-color: #fecaca; }
+.aviso--success { background: #f0fdf4; color: var(--exito);  border-color: #bbf7d0; }
+.aviso--warning { background: #fffbeb; color: var(--alerta); border-color: #fde68a; }
+.aviso--info    { background: var(--marca-suave); color: var(--marca); border-color: #cfd8ea; }
+.aviso__cerrar { border: 0; background: none; color: inherit; cursor: pointer; padding: 0; opacity: .7; }
+.aviso__cerrar:hover { opacity: 1; }
+
+/* ---------- Mensaje de estado ("Searching...", errores) ---------- */
+.estado { margin: 12px 2px; color: var(--suave); font-size: .95rem; min-height: 1.4em; }
+.estado:empty { margin: 6px 0; min-height: 0; }
+.estado--error { color: var(--error); font-weight: 600; }
+.estado--cargando::before {                          /* ruedita girando */
+  content: ""; display: inline-block; width: 14px; height: 14px; margin-right: 8px;
+  border: 2px solid #b8c3dc; border-top-color: var(--marca); border-radius: 50%;
+  vertical-align: -2px; animation: girar .7s linear infinite;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* ---------- Etiquetas y contadores ---------- */
+.etiqueta { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px;
+            font-size: .72rem; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+            background: #fef3c7; color: #92400e; }
+.cuenta { display: inline-grid; place-items: center; min-width: 24px; height: 22px; padding: 0 7px;
+          border-radius: 999px; background: var(--superficie-2); border: 1px solid var(--linea);
+          font-size: .78rem; font-weight: 700; color: var(--suave); font-variant-numeric: tabular-nums; }
+
+/* ---------- Tablas ---------- */
+.tabla { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.tabla th, .tabla td { padding: 8px 10px; border-bottom: 1px solid var(--linea); }
+.tabla thead th { font-size: .75rem; color: var(--suave); text-transform: uppercase; letter-spacing: .04em;
+                  font-weight: 700; background: var(--superficie-2); position: sticky; top: 0; text-align: left; }
+.tabla tbody tr:hover { background: var(--superficie-2); }
+.tabla .vacio { color: var(--suave); text-align: center; }
+.tabla-scroll { overflow-x: auto; }                 /* en el teléfono, la tabla se desplaza de lado si no cabe */
+
+/* ---------- Escáner con la cámara (pantalla completa) ---------- */
+.escaner { position: fixed; inset: 0; z-index: 80; background: rgba(2, 6, 23, .92);
+           display: flex; align-items: center; justify-content: center; padding: 16px; }
+.escaner__caja { width: 100%; max-width: 480px; display: grid; gap: 12px; }
+.escaner__titulo { color: #e2e8f0; text-align: center; margin: 0; font-weight: 600; }
+.escaner__video { width: 100%; border-radius: 14px; overflow: hidden; background: #000; min-height: 240px; }
+.escaner__video video { width: 100% !important; height: auto !important; display: block; }
+
+/* ---------- Menos movimiento: si el usuario lo pidió en su sistema, sin animaciones ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

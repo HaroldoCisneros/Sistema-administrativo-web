@@ -1,0 +1,230 @@
+SIGHEC - SISTEMA ADMINISTRATIVO
+===============================
+
+Sistema administrativo web (PC y telefono). Esta primera entrega es la BASE:
+
+  1. Inicio de sesion con el usuario y la clave de Profit
+     (igual que la app de consulta: MasterProfit.dbo.employee).
+  2. Eleccion de la empresa con la que se va a trabajar (codigo de empresa).
+  3. Menu completo de los 5 modulos, cada uno con sus 4 secciones:
+       Inventory                      (Inventario)
+       Sales & Accounts Receivable    (Ventas y Cuentas por Cobrar)
+       Purchasing & Accounts Payable  (Compras y Cuentas por Pagar)
+       Cash & Banks                   (Cajas y Bancos)
+       Maintenance                    (Mantenimiento)
+     Secciones: Tables (Tablas), Processes (Procesos), Reports (Reportes),
+     Queries (Consultas).
+     Las opciones todavia sin programar muestran "Under construction".
+
+Las pantallas estan en ESPANOL o en INGLES: se elige en config.xml
+(<web><idioma>es</idioma> o en). El codigo y sus comentarios, en espanol.
+Por ahora no lleva logo: arriba a la izquierda sale una marca provisional
+(simbolo + SIGHEC, que se cambia en config.xml <marca>). El logo nuevo se pone en un solo archivo:
+nucleo\templates\nucleo\partes\marca.html.
+Hecho con: Python 64 bits, Django 5.2 (LTS), Django REST Framework, Waitress.
+
+
+COMO SE USA
+-----------
+  - Paso 1: usuario y clave de Profit.
+  - Paso 2: escribir el codigo de la empresa (o tocarla en la lista).
+    El sistema recuerda en el navegador la ultima empresa usada.
+  - Arriba: buscador de opciones (tecla "/" o Ctrl+K; encuentra en ingles
+    y en espanol sin importar el idioma elegido: "pago", "payments"...), la empresa actual (al tocarla
+    se cambia) y el menu del usuario (cambiar empresa, salir).
+  - A la izquierda: el menu en arbol Modulo > Seccion > Opcion. En el
+    telefono se abre con el boton de tres rayas.
+
+
+ESTRUCTURA: EL SISTEMA ES MODULAR
+---------------------------------
+Cada modulo es una carpeta independiente con TODO lo suyo adentro.
+
+  sistema\        Configuracion general de Django
+                    settings.py      MODULOS_MENU: los modulos y su orden
+                    urls.py          donde se "enchufa" cada modulo
+                    configuracion.py lee config.xml
+                    rutas_bd.py      prohibe a Django tocar las bases de Profit
+  nucleo\         Lo comun a todos los modulos
+                    modulos.py       arma el menu con el menu.py de cada modulo
+                    rutas.py         rutas comunes de todo modulo
+                    views.py         tablero, pagina de modulo, "Under construction"
+                    profit.py        acceso de SOLO LECTURA a Profit (por empresa)
+                    pruebas.py       pruebas comunes que todo modulo debe pasar
+                    templatetags\    {% icono %}, iniciales, saludo
+                    locale\es\       traducciones al espanol del nucleo
+                    management\commands\compilar_idiomas.py   compila las traducciones
+                    templates\nucleo\
+                      base.html              lo minimo de toda pantalla
+                      plantilla_acceso.html  login y empresa (panel azul + tarjeta)
+                      plantilla_app.html     pantallas de trabajo (barra + menu)
+                      partes\                marca (aqui ira el logo), barra superior,
+                                             menu lateral, avisos
+                      inicio.html, modulo.html, pendiente.html
+                    static\nucleo\
+                      css\ base.css (comun), acceso.css, app.css
+                      js\  comun.js, app.js (menu, buscador), escaner.js
+                      img\ favicon, iconos.svg (todos los iconos)
+  cuentas\        Inicio de sesion con los usuarios de Profit (igual que en la API)
+  empresas\       Eleccion de empresa
+                    models.py        tabla de empresas (base propia)
+                    acceso.py        que empresas puede usar cada usuario
+                    middleware.py    exige empresa antes de entrar a los modulos
+                    senales.py       al iniciar sesion se vuelve a pedir la empresa
+                    crear_empresa    comando para dar de alta empresas
+  inventario\  cxc\  cxp\  cajas_bancos\  mantenimiento\
+                  Los 5 modulos. Cada uno tiene:
+                    apps.py   registro
+                    menu.py   SUS OPCIONES DEL MENU (aqui se agregan o cambian)
+                    urls.py   sus rutas
+                    views.py  sus pantallas (por ahora ninguna propia)
+                    tests.py  sus pruebas
+                    locale\es\LC_MESSAGES\django.po   sus textos en espanol
+
+  Raiz: config.xml, crear_usuario_sql.sql, iniciar.py, manage.py,
+        requirements.txt, LEEME.txt
+  Se crean solos: clave_secreta.txt (NO compartir), sighec.log,
+  archivos_estaticos\ (con collectstatic).
+
+
+IDIOMAS (ESPANOL / INGLES)
+--------------------------
+  - El idioma se elige en config.xml:  <idioma>es</idioma>  o  <idioma>en</idioma>
+    y se reinicia el sistema.
+  - En el codigo y las plantillas los textos se escriben en INGLES, marcados
+    para traducir:
+        en Python:     _("Customers")
+        en plantillas: {% translate "Customers" %}
+                       {% blocktranslate with n=nombre %}Hi, {{ n }}{% endblocktranslate %}
+  - Su traduccion al espanol esta en el django.po de cada modulo:
+        cxc\locale\es\LC_MESSAGES\django.po
+            msgid "Customers"
+            msgstr "Clientes"
+  - Despues de cambiar o agregar una traduccion:
+        python manage.py compilar_idiomas
+    (crea los django.mo que lee Django; no hace falta instalar nada mas)
+    y reiniciar el sistema.
+  - Si a un texto le falta la traduccion, se muestra en ingles.
+  - Las pruebas automaticas avisan si una opcion del menu no tiene traduccion
+    o si se olvido correr compilar_idiomas.
+
+
+COMO SE AGREGA O CAMBIA UNA OPCION DEL MENU
+-------------------------------------------
+  1. Abrir el menu.py del modulo y agregar una linea en la seccion:
+        opcion("lotes", _("Batches")),
+  2. Agregar su traduccion en el django.po del modulo:
+        msgid "Batches"
+        msgstr "Lotes"
+  3. python manage.py compilar_idiomas
+  Aparece sola en el menu, en el tablero, en el buscador y lleva a
+  "En construccion" hasta que tenga pantalla.
+
+  Opcion con SUB-OPCIONES (grupo), por ejemplo Conteo de Inventario Fisico:
+        grupo("conteo-fisico", _("Physical inventory count"), [
+            opcion("preparar-cerrar", _("Prepare and close count")),
+            opcion("ingresar-resultados", _("Enter count results")),
+        ]),
+  En el menu lateral se abre como una carpeta y en la pagina del modulo sale
+  como titulo con sus sub-opciones debajo.
+
+  Opcion COMPARTIDA entre modulos (la misma pantalla en dos lugares), por
+  ejemplo Proveedores, que esta en Inventario y en Compras y Cuentas por Pagar:
+        opcion("proveedores", _("Suppliers"), compartida="cxp:tablas:proveedores"),
+  Hay un solo programa (el de Compras y Cuentas por Pagar); Inventario solo tiene el
+  acceso. Cuando se programe, se activa en cxp\menu.py y sirve en los dos.
+
+
+COMO SE PROGRAMA LA PANTALLA DE UNA OPCION (ej. Inventory > Tables > Items)
+--------------------------------------------------------------------------
+  1. inventario\views.py: crear la funcion de la pantalla.
+  2. inventario\templates\inventario\articulos.html: su HTML, que empieza con
+        {% extends "nucleo/plantilla_app.html" %}
+  3. inventario\urls.py: agregar su path(...) ANTES de rutas_basicas.
+  4. inventario\menu.py: ponerle la url a la opcion:
+        opcion("articulos", _("Items"), url="inventario:articulos"),
+  5. Sus textos, en ingles con {% translate %}, y su traduccion en
+     inventario\locale\es\LC_MESSAGES\django.po (y compilar_idiomas).
+  La empresa elegida esta en request.empresa y su base de Profit se usa asi:
+        from nucleo.profit import conexion_empresa, consultar
+        filas = consultar("SELECT ...", [valor], conexion_empresa(request.empresa))
+
+
+COMO SE AGREGA UN MODULO NUEVO (ej. ventas)
+-------------------------------------------
+  1. Copiar la carpeta cxc\ como ventas\ y cambiar los nombres adentro
+     (apps.py, menu.py, urls.py, tests.py).
+  2. Agregar "ventas" a MODULOS_MENU en sistema\settings.py.
+  3. Agregar en sistema\urls.py:  path("ventas/", include("ventas.urls")),
+  4. Si tiene icono propio, agregar <symbol id="i-ventas"> en iconos.svg.
+  5. Traducir sus textos en ventas\locale\es\LC_MESSAGES\django.po y
+     correr python manage.py compilar_idiomas.
+
+
+SI ALGO FALLA: QUE MANDAR
+-------------------------
+  1. La carpeta del modulo que falla.
+  2. El archivo sighec.log.
+  3. config.xml SIN las claves.
+  4. Si la falla es en el login: cuentas\; en la empresa: empresas\;
+     en la barra, el menu, el diseno o los idiomas: nucleo\.
+  Nunca mandar clave_secreta.txt.
+
+
+INSTALACION (en el servidor)
+----------------------------
+Requisitos: Python 3.14 de 64 bits y el "ODBC Driver 18 for SQL Server".
+
+ 1. Copiar esta carpeta, por ejemplo a D:\Sistemas\SIGHEC
+
+ 2. En una CMD, dentro de la carpeta:
+        python -m venv venv
+        venv\Scripts\activate
+        pip install -r requirements.txt
+
+ 3. En SQL Server Management Studio: abrir crear_usuario_sql.sql, cambiar la
+    clave y NOMBRE_BASE_PROFIT (repetir el paso 4 del script por cada
+    empresa) y ejecutarlo.
+
+ 4. Editar config.xml: idioma (es / en), clave del usuario de SQL y el dominio.
+
+ 5. Crear las tablas del sistema (usuarios, sesiones, empresas):
+        python manage.py migrate
+
+ 6. Dar de alta las empresas (codigo, nombre, base de Profit y RIF):
+        python manage.py crear_empresa CF01 "Mi Empresa, C.A." NOMBRE_BASE_PROFIT --rif J-12345678-9
+    Si el codigo ya existe, actualiza sus datos.
+    (Tambien se pueden manejar desde /admin/ con un administrador.)
+
+ 7. Preparar los archivos de diseno (repetirlo en cada actualizacion):
+        python manage.py collectstatic --noinput
+
+ 8. Comprobar la clave de un usuario de Profit:
+        python manage.py probar_usuario CODIGO
+
+ 9. Probar en el mismo servidor:
+        python iniciar.py
+    y abrir http://127.0.0.1:8010 . Para probar asi, sin https, poner
+    <https>no</https> en config.xml (en produccion debe ir en "si").
+    Usa el puerto 8010 para poder correr junto a la app de consulta (8000).
+
+10. (Opcional) Administrador propio del sistema, para /admin/:
+        python manage.py createsuperuser
+
+
+PRUEBAS AUTOMATICAS (sin SQL Server)
+------------------------------------
+        python manage.py test --settings=sistema.settings_prueba
+  Solo un modulo:
+        python manage.py test cxc --settings=sistema.settings_prueba
+
+
+PENDIENTE
+---------
+  - Poner el logo nuevo (nucleo\templates\nucleo\partes\marca.html).
+  - Programar las opciones de cada modulo (empezando por donde se decida).
+  - Integrar "Price Product Info" de la app de consulta en
+    Inventory > Queries (la opcion ya esta en el menu).
+  - Permisos por usuario y empresas por usuario (empresas\acceso.py y
+    nucleo\modulos.py ya tienen el lugar marcado).
+  - Instalar como servicio de Windows y publicar con Cloudflare Tunnel.

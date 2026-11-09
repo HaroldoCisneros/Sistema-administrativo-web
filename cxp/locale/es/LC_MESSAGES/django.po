@@ -1,0 +1,123 @@
+# cxp/locale/es/LC_MESSAGES/django.po
+# Traducciones al ESPAÑOL del módulo Compras y Cuentas por Pagar.
+#
+# Cómo se usa:
+#   msgid  = el texto en inglés, EXACTAMENTE como está en el código o la plantilla.
+#   msgstr = su traducción. Si se deja vacío (""), se muestra en inglés.
+#   %(nombre)s y {nombre} son datos que se ponen después (no se traducen, solo se mueven).
+# Después de editar este archivo:
+#   python manage.py compilar_idiomas      (crea el django.mo que lee Django)
+#   y reiniciar el sistema.
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+
+msgid "Purchasing & Accounts Payable"
+msgstr "Compras y Cuentas por Pagar"
+
+msgid "Purchases, suppliers, payments and payable balances."
+msgstr "Compras, proveedores, pagos y saldos por pagar."
+
+msgid "Suppliers"
+msgstr "Proveedores"
+
+msgid "Supplier types"
+msgstr "Tipos de Proveedores"
+
+msgid "Zones"
+msgstr "Zonas"
+
+msgid "Segments"
+msgstr "Segmentos"
+
+msgid "Payment terms"
+msgstr "Condiciones de Pago"
+
+msgid "Income/Expense accounts"
+msgstr "Cuentas de Ingreso/Egreso"
+
+msgid "Agreements"
+msgstr "Convenios"
+
+msgid "Purchase invoices"
+msgstr "Facturas de Compra"
+
+msgid "Purchase orders"
+msgstr "Órdenes de Compra"
+
+msgid "Supplier quotes"
+msgstr "Cotizaciones de Proveedores"
+
+msgid "Returns to suppliers"
+msgstr "Devoluciones a Proveedores"
+
+msgid "Receiving notes"
+msgstr "Notas de Recepción"
+
+msgid "Purchase templates"
+msgstr "Plantillas de Compra"
+
+msgid "Imports"
+msgstr "Importaciones"
+
+msgid "Import control"
+msgstr "Control de Importaciones"
+
+msgid "Cost distribution"
+msgstr "Distribución de Costos"
+
+msgid "Import file"
+msgstr "Expediente"
+
+msgid "Documents"
+msgstr "Documentos"
+
+msgid "Payment scheduling"
+msgstr "Programación de Pagos"
+
+msgid "Supplier payments"
+msgstr "Pagos a Proveedores"
+
+msgid "Generate bills of exchange"
+msgstr "Generar Giros"
+
+msgid "A/P documents"
+msgstr "Documentos de CxP"
+
+msgid "Authorized payments"
+msgstr "Pagos Autorizados"
+
+msgid "Payments"
+msgstr "Pagos"
+
+msgid "Issued checks format"
+msgstr "Formato de Cheques Emitidos"
+
+msgid "Purchasing & A/P tables"
+msgstr "Tablas de Compras y CxP"
+
+msgid "Purchase ledger"
+msgstr "Libro de Compras"
+
+msgid "Supplier account statement"
+msgstr "Estado de Cuenta de Proveedores"
+
+msgid "Supplier aging (overdue / not yet due)"
+msgstr "Análisis del Vencimiento/Por Vencer de Proveedor"
+
+msgid "Purchase analysis"
+msgstr "Análisis de Compras"
+
+msgid "Purchase statistics"
+msgstr "Estadísticas de Compras"
+
+msgid "Supplier balance"
+msgstr "Saldo del proveedor"
+
+msgid "Open documents"
+msgstr "Documentos pendientes"
+
+msgid "Supplier history"
+msgstr "Historial del proveedor"

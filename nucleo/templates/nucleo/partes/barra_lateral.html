@@ -1,0 +1,98 @@
+{% comment %}
+  nucleo/templates/nucleo/partes/barra_lateral.html
+  =================================================
+  Menú lateral de las pantallas de trabajo (lo incluye plantilla_app.html).
+
+  Es un árbol, como el menú de Profit:
+      Módulo (Inventario)
+        └ Sección (Tablas, Procesos, Reportes, Consultas)
+            └ Opción (Artículos, Colores, ...)
+            └ Grupo (Conteo de Inventario Físico)
+                └ Sub-opción (Preparar y Cerrar Físico, ...)
+
+  Cada nivel es un <details>, que el navegador abre y cierra solo al tocarlo.
+  Queda abierto ("open") el módulo y la sección de la pantalla actual.
+  Los datos vienen de {{ menu_modulos }} (nucleo/modulos.py), ya traducidos.
+{% endcomment %}
+{% load iconos i18n %}
+<aside class="lateral" id="lateral" aria-label="{% translate 'Main menu' %}">
+  {# Encabezado que solo se ve en el teléfono (con el botón para cerrar) #}
+  <div class="lateral__cabecera">
+    <span>{% translate "Menu" %}</span>
+    <button type="button" class="barra__boton" data-cerrar-lateral aria-label="{% translate 'Close menu' %}">{% icono "cerrar" %}</button>
+  </div>
+
+  <nav class="lateral__nav">
+    {# Inicio #}
+    <a class="lateral__inicio {% if request.resolver_match.view_name == 'nucleo:inicio' %}activo{% endif %}"
+       href="{% url 'nucleo:inicio' %}">
+      {% icono "inicio" %} {% translate "Home" %}
+    </a>
+
+    <p class="lateral__titulo">{% translate "Modules" %}</p>
+
+    {% for m in menu_modulos %}
+      {# style="--acento": el color propio del módulo, que usa el CSS #}
+      <details class="lat-modulo" style="--acento: {{ m.color }}" {% if m.activo %}open{% endif %}>
+        <summary class="lat-modulo__titulo {% if m.activo %}activo{% endif %}">
+          <span class="lat-modulo__icono">{% icono m.icono %}</span>
+          <span class="lat-modulo__nombre">{{ m.titulo }}</span>
+          {% icono "abajo" "lat-flecha" %}
+        </summary>
+
+        <div class="lat-modulo__cuerpo">
+          {# Enlace a la página del módulo (vista general de sus 4 secciones) #}
+          <a class="lat-modulo__general {% if request.path == m.url %}activo{% endif %}" href="{{ m.url }}">{% translate "Overview" %}</a>
+
+          {% for s in m.secciones %}
+            <details class="lat-seccion" {% if s.activa %}open{% endif %}>
+              <summary class="lat-seccion__titulo">
+                {% icono s.icono %}
+                <span>{{ s.titulo }}</span>
+                {# Cantidad de opciones de la sección #}
+                <span class="lat-seccion__cuenta">{{ s.total }}</span>
+              </summary>
+              <ul class="lat-seccion__lista">
+                {% for o in s.opciones %}
+                  <li>
+                    {% if o.grupo %}
+                      {# Grupo: otra "carpeta" con sus sub-opciones; abierta si una de ellas es la actual #}
+                      <details class="lat-grupo" {% if o.activa %}open{% endif %}>
+                        <summary class="lat-grupo__titulo">
+                          <span>{{ o.titulo }}</span>
+                          {% icono "abajo" "lat-flecha" %}
+                        </summary>
+                        <ul class="lat-grupo__lista">
+                          {% for h in o.hijas %}
+                            <li>
+                              <a href="{{ h.url }}" class="{% if h.activa %}activo{% endif %}"
+                                 {% if h.activa %}aria-current="page"{% endif %}>{{ h.titulo }}</a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </details>
+                    {% else %}
+                      {# aria-current="page": avisa a los lectores de pantalla cuál es la actual #}
+                      <a href="{{ o.url }}" class="{% if o.activa %}activo{% endif %}"
+                         {% if o.activa %}aria-current="page"{% endif %}>{{ o.titulo }}</a>
+                    {% endif %}
+                  </li>
+                {% empty %}
+                  <li class="lat-seccion__vacia">{% translate "No options yet" %}</li>
+                {% endfor %}
+              </ul>
+            </details>
+          {% endfor %}
+        </div>
+      </details>
+    {% endfor %}
+  </nav>
+
+  {# Pie del menú: la empresa actual (útil en el teléfono, donde la barra no la muestra) #}
+  {% if empresa %}
+    <a class="lateral__empresa" href="{% url 'empresas:seleccionar' %}">
+      {% icono "empresa" %}
+      <span><strong>{{ empresa.codigo }}</strong> {{ empresa.nombre }}</span>
+    </a>
+  {% endif %}
+</aside>

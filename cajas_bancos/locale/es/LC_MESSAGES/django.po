@@ -1,0 +1,90 @@
+# cajas_bancos/locale/es/LC_MESSAGES/django.po
+# Traducciones al ESPAÑOL del módulo Cajas y Bancos.
+#
+# Cómo se usa:
+#   msgid  = el texto en inglés, EXACTAMENTE como está en el código o la plantilla.
+#   msgstr = su traducción. Si se deja vacío (""), se muestra en inglés.
+#   %(nombre)s y {nombre} son datos que se ponen después (no se traducen, solo se mueven).
+# Después de editar este archivo:
+#   python manage.py compilar_idiomas      (crea el django.mo que lee Django)
+#   y reiniciar el sistema.
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+
+msgid "Cash & Banks"
+msgstr "Cajas y Bancos"
+
+msgid "Cash registers, bank accounts, transfers and reconciliation."
+msgstr "Cajas, cuentas bancarias, transferencias y conciliación."
+
+msgid "Bank accounts"
+msgstr "Cuentas Bancarias"
+
+msgid "Checkbooks"
+msgstr "Chequeras"
+
+msgid "Cash registers"
+msgstr "Cajas"
+
+msgid "Banks"
+msgstr "Bancos"
+
+msgid "Payees"
+msgstr "Beneficiarios"
+
+msgid "Income/Expense accounts"
+msgstr "Cuentas de Ingreso/Egreso"
+
+msgid "Credit/Debit cards"
+msgstr "Tarjetas de Crédito/Débito"
+
+msgid "Cash movements"
+msgstr "Movimientos de Cajas"
+
+msgid "Bank movements"
+msgstr "Movimientos de Bancos"
+
+msgid "File upload and validation"
+msgstr "Carga y Validación de Archivos"
+
+msgid "Bank reconciliation"
+msgstr "Conciliación Bancaria"
+
+msgid "Bank deposits"
+msgstr "Depósitos Bancarios"
+
+msgid "Payment orders"
+msgstr "Órdenes de Pago"
+
+msgid "Check delivery"
+msgstr "Entrega de Cheques"
+
+msgid "Generate tax form"
+msgstr "Generar Planilla Fiscal"
+
+msgid "Cash & Banks tables"
+msgstr "Tablas de Cajas y Bancos"
+
+msgid "Account statement (bank accounts)"
+msgstr "Estado de Cuenta (Ctas Bancarias)"
+
+msgid "Account statement (cash registers)"
+msgstr "Estado de Cuenta (Cajas)"
+
+msgid "Financial statement"
+msgstr "Estado Financiero"
+
+msgid "Cash flow"
+msgstr "Flujo de Caja"
+
+msgid "Account balances"
+msgstr "Saldos de las cuentas"
+
+msgid "Movements"
+msgstr "Movimientos"
+
+msgid "Exchange rate history"
+msgstr "Historial de tasas de cambio"

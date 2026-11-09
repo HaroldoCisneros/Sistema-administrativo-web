@@ -1,0 +1,99 @@
+{% extends "nucleo/plantilla_app.html" %}
+{% comment %}
+  NOTA: {% extends %} debe ser siempre la PRIMERA línea (regla de Django).
+
+  nucleo/templates/nucleo/modulo.html
+  ===================================
+  Página de un módulo (nucleo/views.py, pagina_modulo). La usan TODOS los
+  módulos: muestra su encabezado y un recuadro por cada una de sus 4
+  secciones (Tablas, Procesos, Reportes, Consultas) con sus opciones.
+
+  Variable que manda la vista:
+    modulo -> el módulo con sus secciones y opciones (nucleo/modulos.py)
+
+  Cada recuadro tiene id="tablas", id="procesos"... para que los enlaces
+  "/inventario/#reportes" bajen directo a esa sección.
+{% endcomment %}
+{% load iconos i18n %}
+
+{% block titulo %}{{ modulo.titulo }}{% endblock %}
+
+{# Migas de pan: Inicio › Inventario #}
+{% block migas %}
+<nav class="migas" aria-label="{% translate 'Breadcrumb' %}">
+  <a href="{% url 'nucleo:inicio' %}">{% translate "Home" %}</a>
+  {% icono "derecha" %}
+  <span aria-current="page">{{ modulo.titulo }}</span>
+</nav>
+{% endblock %}
+
+{% block contenido %}
+{# ================= Encabezado del módulo, con su color ================= #}
+<header class="cabeza-modulo" style="--acento: {{ modulo.color }}">
+  <span class="cabeza-modulo__icono">{% icono modulo.icono %}</span>
+  <div>
+    <h1>{{ modulo.titulo }}</h1>
+    <p>{{ modulo.descripcion }}</p>
+  </div>
+  {# Accesos rápidos a cada sección dentro de esta misma página #}
+  <nav class="cabeza-modulo__saltos" aria-label="{% translate 'Sections' %}">
+    {% for s in modulo.secciones %}
+      <a href="#{{ s.clave }}">{{ s.titulo }}</a>
+    {% endfor %}
+  </nav>
+</header>
+
+{# ================= Las 4 secciones ================= #}
+<div class="secciones" style="--acento: {{ modulo.color }}">
+  {% for s in modulo.secciones %}
+    <section class="tarjeta seccion" id="{{ s.clave }}" aria-labelledby="titulo-{{ s.clave }}">
+      <header class="seccion__cabeza">
+        <span class="seccion__icono">{% icono s.icono %}</span>
+        <div>
+          <h2 id="titulo-{{ s.clave }}">{{ s.titulo }}</h2>
+          <p>{{ s.subtitulo }}</p>
+        </div>
+        <span class="cuenta">{{ s.total }}</span>
+      </header>
+
+      <ul class="opciones">
+        {% for o in s.opciones %}
+          {% if o.grupo %}
+            {# Grupo: su título y, debajo, sus sub-opciones con sangría #}
+            <li class="opciones__grupo">
+              <span class="opciones__grupo-titulo">{{ o.titulo }}</span>
+              <ul class="opciones opciones--hijas">
+                {% for h in o.hijas %}
+                  <li>
+                    <a class="opcion" href="{{ h.url }}">
+                      <span class="opcion__texto"><span>{{ h.titulo }}</span></span>
+                      {% if h.pendiente %}<span class="etiqueta">{% translate "Soon" %}</span>{% endif %}
+                      {% icono "derecha" "opcion__ir" %}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% else %}
+          <li>
+            <a class="opcion" href="{{ o.url }}">
+              <span class="opcion__texto">
+                <span>{{ o.titulo }}</span>
+                {% if o.ayuda %}<small>{{ o.ayuda }}</small>{% endif %}
+                {# Opción compartida con otro módulo (la misma pantalla en los dos) #}
+                {% if o.duena %}<small>{% blocktranslate with modulo=o.duena %}Shared with {{ modulo }}{% endblocktranslate %}</small>{% endif %}
+              </span>
+              {# "Pronto" (Soon) en las opciones que todavía no tienen pantalla #}
+              {% if o.pendiente %}<span class="etiqueta">{% translate "Soon" %}</span>{% endif %}
+              {% icono "derecha" "opcion__ir" %}
+            </a>
+          </li>
+          {% endif %}
+        {% empty %}
+          <li class="suave">{% translate "No options in this section yet." %}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+</div>
+{% endblock %}

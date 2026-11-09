@@ -1,0 +1,63 @@
+# mantenimiento/locale/es/LC_MESSAGES/django.po
+# Traducciones al ESPAÑOL del módulo Mantenimiento.
+#
+# Cómo se usa:
+#   msgid  = el texto en inglés, EXACTAMENTE como está en el código o la plantilla.
+#   msgstr = su traducción. Si se deja vacío (""), se muestra en inglés.
+#   %(nombre)s y {nombre} son datos que se ponen después (no se traducen, solo se mueven).
+# Después de editar este archivo:
+#   python manage.py compilar_idiomas      (crea el django.mo que lee Django)
+#   y reiniciar el sistema.
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+
+msgid "Maintenance"
+msgstr "Mantenimiento"
+
+msgid "Companies, users, permissions and system settings."
+msgstr "Empresas, usuarios, permisos y configuración del sistema."
+
+msgid "Companies"
+msgstr "Empresas"
+
+msgid "Users"
+msgstr "Usuarios"
+
+msgid "Roles"
+msgstr "Perfiles"
+
+msgid "Permissions"
+msgstr "Permisos"
+
+msgid "Taxes"
+msgstr "Impuestos"
+
+msgid "Document numbering"
+msgstr "Correlativos de documentos"
+
+msgid "Assign users to companies"
+msgstr "Asignar usuarios a empresas"
+
+msgid "Import data from Profit"
+msgstr "Importar datos de Profit"
+
+msgid "Period closing"
+msgstr "Cierre de período"
+
+msgid "User list"
+msgstr "Lista de usuarios"
+
+msgid "Access log"
+msgstr "Registro de accesos"
+
+msgid "Audit trail"
+msgstr "Auditoría"
+
+msgid "Active sessions"
+msgstr "Sesiones activas"
+
+msgid "Event log"
+msgstr "Registro de eventos"

@@ -1,0 +1,72 @@
+{% extends "nucleo/base.html" %}
+{% comment %}
+  NOTA: {% extends %} debe ser siempre la PRIMERA línea (regla de Django).
+
+  nucleo/templates/nucleo/plantilla_app.html
+  ==========================================
+  Plantilla de TODAS las pantallas de trabajo (después de iniciar sesión y
+  elegir la empresa). Cada pantalla de cada módulo la extiende así:
+
+      {% extends "nucleo/plantilla_app.html" %}
+      {% block titulo %}Items{% endblock %}
+      {% block migas %} ... {% endblock %}      (opcional: ruta "Inventory › Tables › Items")
+      {% block contenido %} ... {% endblock %}
+
+  Diseño:
+      ┌───────────────── barra superior ─────────────────┐
+      │ marca · buscador · empresa · usuario             │
+      ├──────────┬───────────────────────────────────────┤
+      │  menú    │  migas de pan                         │
+      │ lateral  │  contenido de la pantalla             │
+      └──────────┴───────────────────────────────────────┘
+  En el teléfono el menú lateral se esconde y se abre con el botón ☰.
+
+  Las piezas están en archivos aparte (nucleo/templates/nucleo/partes/) para
+  que cada una se pueda cambiar sin tocar las demás.
+{% endcomment %}
+{% load static %}
+
+{# Estilos del diseño de trabajo + los que agregue la pantalla #}
+{% block estilos %}
+  <link rel="stylesheet" href="{% static 'nucleo/css/app.css' %}">
+  {% block estilos_pantalla %}{% endblock %}
+{% endblock %}
+
+{% block clase_body %}app{% endblock %}
+
+{% block cuerpo %}
+  {# ================= Barra superior ================= #}
+  {% include "nucleo/partes/barra_superior.html" %}
+
+  <div class="app__marco">
+    {# ================= Menú lateral ================= #}
+    {% include "nucleo/partes/barra_lateral.html" %}
+
+    {# ================= Cuerpo de la pantalla ================= #}
+    <main class="app__contenido {% block ancho %}{% endblock %}" id="contenido">
+      {# Mensajes de aviso (por ejemplo: "Trabajando con ...") #}
+      {% include "nucleo/partes/mensajes.html" %}
+
+      {# Migas de pan: dónde está parado el usuario #}
+      {% block migas %}{% endblock %}
+
+      {% block contenido %}{% endblock %}
+    </main>
+  </div>
+
+  {# Velo oscuro detrás del menú lateral cuando se abre en el teléfono (al tocarlo, se cierra) #}
+  <div class="velo" data-cerrar-lateral hidden></div>
+
+  {% comment %}
+    Lista de todas las opciones del menú, en formato JSON, para el buscador.
+    json_script la escribe dentro de un <script type="application/json"> de
+    forma segura (escapa cualquier carácter peligroso). La lee app.js.
+  {% endcomment %}
+  {{ indice_menu|json_script:"indice-menu" }}
+{% endblock %}
+
+{% block scripts %}
+  {# Comportamiento del diseño: menú lateral, buscador, menú del usuario #}
+  <script src="{% static 'nucleo/js/app.js' %}"></script>
+  {% block scripts_pantalla %}{% endblock %}
+{% endblock %}

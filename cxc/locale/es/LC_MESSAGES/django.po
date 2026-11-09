@@ -1,0 +1,144 @@
+# cxc/locale/es/LC_MESSAGES/django.po
+# Traducciones al ESPAÑOL del módulo Ventas y Cuentas por Cobrar.
+#
+# Cómo se usa:
+#   msgid  = el texto en inglés, EXACTAMENTE como está en el código o la plantilla.
+#   msgstr = su traducción. Si se deja vacío (""), se muestra en inglés.
+#   %(nombre)s y {nombre} son datos que se ponen después (no se traducen, solo se mueven).
+# Después de editar este archivo:
+#   python manage.py compilar_idiomas      (crea el django.mo que lee Django)
+#   y reiniciar el sistema.
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+
+msgid "Sales & Accounts Receivable"
+msgstr "Ventas y Cuentas por Cobrar"
+
+msgid "Sales, customers, collections and receivable balances."
+msgstr "Ventas, clientes, cobranza y saldos por cobrar."
+
+msgid "Customers"
+msgstr "Clientes"
+
+msgid "Customer types"
+msgstr "Tipos de Clientes"
+
+msgid "Zones"
+msgstr "Zonas"
+
+msgid "Segments"
+msgstr "Segmentos"
+
+msgid "Sales reps"
+msgstr "Vendedores"
+
+msgid "Countries"
+msgstr "Países"
+
+msgid "Warehouses"
+msgstr "Almacenes"
+
+msgid "Branches"
+msgstr "Sucursales"
+
+msgid "Payment terms"
+msgstr "Condiciones de Pago"
+
+msgid "Carriers"
+msgstr "Transportes"
+
+msgid "POS terminals - Credit/Debit cards"
+msgstr "Puntos - Tarjetas de Crédito/Débito"
+
+msgid "Income/Expense accounts"
+msgstr "Cuentas de Ingreso/Egreso"
+
+msgid "Discounts"
+msgstr "Descuentos"
+
+msgid "Commissions"
+msgstr "Comisiones"
+
+msgid "Currency"
+msgstr "Moneda"
+
+msgid "Point of sale shifts"
+msgstr "Turnos Punto de Venta"
+
+msgid "Sales invoices"
+msgstr "Facturas de Venta"
+
+msgid "Packing List"
+msgstr "Pedidos"
+
+msgid "Proforma"
+msgstr "Cotizaciones a Clientes"
+
+msgid "Customer returns"
+msgstr "Devoluciones de Clientes"
+
+msgid "Delivery notes"
+msgstr "Notas de Entrega"
+
+msgid "Sales templates"
+msgstr "Plantillas de Venta"
+
+msgid "Open and close shifts"
+msgstr "Iniciar y Cerrar Turnos"
+
+msgid "Sales documents"
+msgstr "Documentos de Ventas"
+
+msgid "Collections"
+msgstr "Cobranza"
+
+msgid "Generate bills of exchange"
+msgstr "Generar Giros"
+
+msgid "Packing"
+msgstr "Empaques"
+
+msgid "Packing control"
+msgstr "Control de Empaques"
+
+msgid "Dispatch notes"
+msgstr "Notas de Despacho"
+
+msgid "A/R documents"
+msgstr "Documentos de CxC"
+
+msgid "Point of sale"
+msgstr "Punto de Ventas"
+
+msgid "Sales & A/R tables"
+msgstr "Tablas de Ventas y CxC"
+
+msgid "Sales ledger"
+msgstr "Libro de Ventas"
+
+msgid "Customer account statement"
+msgstr "Estado de Cuenta de Clientes"
+
+msgid "Customer aging (overdue / not yet due)"
+msgstr "Análisis del Vencimiento/Por Vencer de Clientes"
+
+msgid "Sales analysis"
+msgstr "Análisis de Ventas"
+
+msgid "Sales statistics"
+msgstr "Estadísticas de Ventas"
+
+msgid "Sales profit margin"
+msgstr "Margen de Ganancia en Ventas"
+
+msgid "Customer balance"
+msgstr "Saldo del cliente"
+
+msgid "Open documents"
+msgstr "Documentos pendientes"
+
+msgid "Customer history"
+msgstr "Historial del cliente"

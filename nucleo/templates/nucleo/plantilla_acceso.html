@@ -1,0 +1,69 @@
+{% extends "nucleo/base.html" %}
+{% comment %}
+  NOTA: {% extends %} debe ser siempre la PRIMERA línea (regla de Django).
+
+  nucleo/templates/nucleo/plantilla_acceso.html
+  =============================================
+  Plantilla de las pantallas de ACCESO (antes de entrar al sistema):
+    paso 1: iniciar sesión    (cuentas/templates/cuentas/login.html)
+    paso 2: elegir la empresa (empresas/templates/empresas/seleccionar.html)
+
+  Diseño: dos paneles.
+    - Izquierda: panel azul con la marca (nucleo/partes/marca.html) y los módulos.
+      (En el teléfono se reduce a una franja arriba.)
+    - Derecha: el formulario de cada paso, dentro de una tarjeta.
+
+  Bloques que rellena cada pantalla:
+    {% block clase_paso1 %} / {% block clase_paso2 %}   "actual" o "hecho" (resalta el paso)
+    {% block formulario %}  el contenido de la tarjeta
+{% endcomment %}
+{% load static iconos i18n %}
+
+{# Estilos propios de las pantallas de acceso #}
+{% block estilos %}<link rel="stylesheet" href="{% static 'nucleo/css/acceso.css' %}">{% endblock %}
+
+{% block clase_body %}acceso{% endblock %}
+
+{% block cuerpo %}
+<div class="acceso__marco">
+
+  {# ================= Panel de la marca (izquierda) ================= #}
+  <aside class="acceso__marca">
+    {# Marca en versión clara (para el fondo azul). El logo nuevo irá en ese archivo. #}
+    <div class="acceso__logo">{% include "nucleo/partes/marca.html" with variante="clara" %}</div>
+
+    {# Nombre del sistema y frase. Se ocultan en el teléfono para ahorrar espacio. #}
+    <div class="acceso__texto">
+      <h1>{{ nombre_sistema }}</h1>
+      <p>{% translate "Everything your company runs on, in one place." %}</p>
+
+      {% comment %}
+        Lista de los módulos (solo informativa, sin enlaces). Sale de
+        modulos_sistema (nucleo/context_processors.py), así que un módulo
+        nuevo aparece aquí solo.
+      {% endcomment %}
+      <ul class="acceso__modulos">
+        {% for m in modulos_sistema %}
+          <li>{% icono m.icono %} {{ m.titulo }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {# Pie del panel: año actual con la etiqueta now de Django #}
+    <p class="acceso__pie">&copy; {% now "Y" %} {{ marca }}</p>
+  </aside>
+
+  {# ================= Formulario (derecha) ================= #}
+  <main class="acceso__principal">
+    <section class="tarjeta acceso__tarjeta">
+      {# Indicador de pasos: 1 Iniciar sesión · 2 Empresa. El paso actual se resalta. #}
+      <ol class="pasos" aria-label="{% translate 'Steps' %}">
+        <li class="pasos__paso {% block clase_paso1 %}{% endblock %}"><span>1</span> {% translate "Sign in" %}</li>
+        <li class="pasos__paso {% block clase_paso2 %}{% endblock %}"><span>2</span> {% translate "Company" %}</li>
+      </ol>
+
+      {% block formulario %}{% endblock %}
+    </section>
+  </main>
+</div>
+{% endblock %}

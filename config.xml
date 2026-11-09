@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  config.xml
+  ==========
+  Todo lo que cambia de una instalación a otra vive aquí (no en el código).
+  Lo lee sistema/configuracion.py una sola vez al arrancar el sistema.
+  Después de cambiar algo, hay que reiniciar el sistema (iniciar.py).
+-->
+<configuracion>
+  <web>
+    <!-- Idioma de las pantallas: es = español, en = inglés (English) -->
+    <idioma>es</idioma>
+    <!-- Nombre del sistema: sale en la pestaña del navegador y en las pantallas.
+         Vacío = "Sistema Administrativo" / "Administrative System" según el idioma. -->
+    <nombre>Sistema administrativo web</nombre>
+    <!-- Marca del sistema: sale arriba a la izquierda, en la pestaña del navegador
+         y en el pie del login (mientras no haya logo, es el texto de la marca) -->
+    <marca>SIGHEC</marca>
+    <!-- Dominios o IP por los que se entra a la página, separados por coma -->
+    <dominios>admin.midominio.com, localhost, 127.0.0.1</dominios>
+    <!-- 127.0.0.1 = solo recibe conexiones del mismo servidor (Cloudflare Tunnel o IIS) -->
+    <escuchar>127.0.0.1</escuchar>
+    <!-- Puerto distinto al de la app de consulta (8000) para que puedan correr juntas -->
+    <puerto>8010</puerto>
+    <!-- si = publicada con https (producción). no = solo para probar en la red local -->
+    <https>si</https>
+    <!-- Intentos fallidos de login antes de bloquear el usuario 15 minutos -->
+    <intentos_login>5</intentos_login>
+    <!-- Nunca "si" en producción: muestra detalles internos cuando hay errores -->
+    <depuracion>no</depuracion>
+  </web>
+
+  <sqlserver>
+    <servidor>localhost</servidor>
+    <!-- Usuario de SQL con los permisos del script crear_usuario_sql.sql -->
+    <usuario>sighec</usuario>
+    <clave>CAMBIAR_CLAVE</clave>
+    <driver>ODBC Driver 18 for SQL Server</driver>
+  </sqlserver>
+
+  <bases>
+    <!-- Base propia del sistema (usuarios, sesiones, empresas y lo que se agregue).
+         La base de Profit de cada empresa se indica al crear la empresa
+         (python manage.py crear_empresa ...), no aquí. -->
+    <sistema>SIGHEC</sistema>
+  </bases>
+
+  <usuarios>
+    <!-- profit  = entran con su usuario y clave de Profit
+         sistema = usuarios propios del sistema (cuando nos independicemos de Profit) -->
+    <origen>profit</origen>
+    <base>MasterProfit</base>
+    <tabla>employee</tabla>
+    <!-- si = la clave se compara en mayúsculas (compruébelo con: python manage.py probar_usuario CODIGO) -->
+    <clave_mayusculas>no</clave_mayusculas>
+  </usuarios>
+</configuracion>

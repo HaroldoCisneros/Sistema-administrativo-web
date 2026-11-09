@@ -1,0 +1,24 @@
+{% comment %}
+  nucleo/templates/nucleo/partes/marca.html
+  =========================================
+  Marca del sistema: un símbolo y, a su lado, la marca SIGHEC ({{ marca }})
+  y debajo el nombre del sistema ({{ nombre_sistema }}), los dos de config.xml.
+
+  Es PROVISIONAL mientras llega el logo nuevo. Cuando llegue, solo se cambia
+  este archivo (por ejemplo, por un <img src="{% static 'nucleo/img/logo.png' %}">)
+  y aparece en todas las pantallas.
+
+  Se incluye así (variante = "clara" para fondos oscuros, como el panel del login):
+      {% include "nucleo/partes/marca.html" %}
+      {% include "nucleo/partes/marca.html" with variante="clara" %}
+{% endcomment %}
+{% load iconos %}
+<span class="marca {% if variante %}marca--{{ variante }}{% endif %}">
+  {# Cuadro con el símbolo #}
+  <span class="marca__simbolo">{% icono "marca" %}</span>
+  {# La marca (SIGHEC) y, debajo, el nombre del sistema #}
+  <span class="marca__textos">
+    <strong>{{ marca }}</strong>
+    <small>{{ nombre_sistema }}</small>
+  </span>
+</span>

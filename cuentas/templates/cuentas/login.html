@@ -1,0 +1,59 @@
+{% extends "nucleo/plantilla_acceso.html" %}
+{% comment %}
+  NOTA: {% extends %} debe ser siempre la PRIMERA línea (regla de Django).
+
+  cuentas/templates/cuentas/login.html
+  ====================================
+  Paso 1 de 2: inicio de sesión. Usa la plantilla de acceso del núcleo
+  (panel de la marca + tarjeta) y solo rellena la tarjeta.
+
+  Variables que entrega Django (LoginView):
+    form  -> el formulario (cuentas/forms.py)
+    next  -> la pantalla a la que se quería entrar; después del login se va ahí
+{% endcomment %}
+{% load iconos i18n %}
+
+{% block titulo %}{% translate "Sign in" %}{% endblock %}
+
+{# Paso 1 resaltado en el indicador de pasos #}
+{% block clase_paso1 %}actual{% endblock %}
+
+{% block formulario %}
+<h2>{% translate "Welcome back" %}</h2>
+<p class="suave">{% translate "Sign in with your Profit username and password." %}</p>
+
+{# novalidate: los errores los muestra el servidor, con nuestros mensajes #}
+<form method="post" novalidate>
+  {# Protección contra envíos falsos desde otras páginas (obligatorio en Django) #}
+  {% csrf_token %}
+
+  {# Error general: usuario o clave incorrectos, o demasiados intentos #}
+  {% if form.non_field_errors %}
+    <div class="aviso aviso--error" role="alert">{% icono "candado" %}<span>{{ form.non_field_errors.0 }}</span></div>
+  {% endif %}
+
+  {# Usuario, con ícono a la izquierda. for="..." une la etiqueta con su campo. #}
+  <div class="campo">
+    <label class="campo__etiqueta" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+    <div class="campo__caja">
+      {% icono "usuario" %}
+      {{ form.username }}
+    </div>
+  </div>
+
+  {# Clave #}
+  <div class="campo">
+    <label class="campo__etiqueta" for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+    <div class="campo__caja">
+      {% icono "candado" %}
+      {{ form.password }}
+    </div>
+  </div>
+
+  {# A dónde volver después de entrar #}
+  <input type="hidden" name="next" value="{{ next }}">
+  <button type="submit" class="boton boton--primario boton--ancho boton--grande">
+    {% translate "Continue" %} {% icono "derecha" %}
+  </button>
+</form>
+{% endblock %}

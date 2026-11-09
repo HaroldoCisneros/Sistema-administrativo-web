@@ -1,0 +1,48 @@
+# cuentas/locale/es/LC_MESSAGES/django.po
+# Traducciones al ESPAÑOL del módulo cuentas (inicio de sesión).
+#
+# Cómo se usa:
+#   msgid  = el texto en inglés, EXACTAMENTE como está en el código o la plantilla.
+#   msgstr = su traducción. Si se deja vacío (""), se muestra en inglés.
+#   %(nombre)s y {nombre} son datos que se ponen después (no se traducen, solo se mueven).
+# Después de editar este archivo:
+#   python manage.py compilar_idiomas      (crea el django.mo que lee Django)
+#   y reiniciar el sistema.
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+
+msgid "User accounts"
+msgstr "Cuentas de usuario"
+
+msgid "Username"
+msgstr "Usuario"
+
+msgid "Your Profit user"
+msgstr "Su usuario de Profit"
+
+msgid "Password"
+msgstr "Contraseña"
+
+msgid "Incorrect username or password."
+msgstr "Usuario o contraseña incorrectos."
+
+msgid "This user is inactive."
+msgstr "Este usuario está inactivo."
+
+msgid "Too many failed attempts. Please wait 15 minutes and try again."
+msgstr "Demasiados intentos fallidos. Espere 15 minutos y vuelva a intentarlo."
+
+msgid "Sign in"
+msgstr "Iniciar sesión"
+
+msgid "Welcome back"
+msgstr "Bienvenido"
+
+msgid "Sign in with your Profit username and password."
+msgstr "Ingrese con su usuario y contraseña de Profit."
+
+msgid "Continue"
+msgstr "Continuar"
